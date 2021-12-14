@@ -1,3 +1,4 @@
+#These are the list of libraries used to run the server side.
 from socket import AF_INET, SOCK_STREAM, socket, gethostname
 import IP_Address
 import os.path
@@ -11,6 +12,7 @@ boolean = True
 Boolean = True
 save_path = 'forward/'
 
+#The below function is used to obtain the MAC address of the computer.
 def GetMAC(ip):
     with os.popen("arp -a") as f:
         data = f.read()
@@ -19,9 +21,11 @@ def GetMAC(ip):
     mac_address = data[start:end]
     return mac_address
 
+#Function used to use the stored variables in another file.
 IPA = IP_Address.Getting_IP_Address()
 GHN = IP_Address.Getting_HostName() 
 
+#Function to display the welcome message for the server side.
 Welcome_Message = "Welcome to my SMTP Server Side. \n This project is done by Ahmed Nader \n  Hope you'll like it and have a good day \n   :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) \n" 
 
 for letter in Welcome_Message:
@@ -32,6 +36,7 @@ for letter in Welcome_Message:
 print("The SMTP application (Server Side) has fully started")
 print("The OS assigned process ID is :", getpid())
 
+#Setting up the TCP socket
 while True:
     try:
       sock = (IPA,25)  
@@ -46,6 +51,7 @@ while True:
     except:
         print("Socket connection error! Please try again.")
         sys.exit()
+#Setting up the handshake and establishing the connection.        
 while Boolean:
     try:
         client_socket, client_address = s.accept()

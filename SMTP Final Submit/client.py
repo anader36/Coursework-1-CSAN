@@ -1,9 +1,11 @@
+#These are the list of libraries used to run the client side.
 from socket import AF_INET, SOCK_STREAM, socket
 from os import getpid
 import sys
 import IP_Address
 from time import sleep
 
+#Function to display the welcome message for the client side.
 Ending_Message = "Welcome to my SMTP Client Side. \n This project is done by Ahmed Nader \n  Hope you'll like it and have a good day \n   :) :) :) :) :) :) :) :) :) :) :) :) :) :) :) \n" 
 
 for letter in Ending_Message:
@@ -11,7 +13,10 @@ for letter in Ending_Message:
   sys.stdout.write(letter)
   sys.stdout.flush()
 
+#Function used to use the stored variables in another file.
 IPA = IP_Address.Getting_IP_Address()
+
+#Setting up the TCP socket to receive.
 sock = (IPA,7777)
 Server_IPAddress= input("Please enter the SMTP server's IP Address: ")
 Server_PortAddress= int(input("Please enter the SMTP server's Port Address: "))
