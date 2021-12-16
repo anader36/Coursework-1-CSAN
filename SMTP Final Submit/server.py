@@ -84,15 +84,15 @@ while Boolean:
         sys.exit()
     while boolean:
         print("Recieving mail from info")
-        # recieve MAIL FROM command
+        #Functions used to recieve "MAIL FROM" command
         MailFrom= client_socket.recv(1024).decode("utf-8")
         print("'MAIL FROM command' has been recieved from the client")
-        # check if command input is out of order
+        #To check if the command input is out of order
         _check1 = re.match(r'RCPT(\s+|$)TO:', MailFrom)
         _check2 = re.match(r'DATA', MailFrom)
-        # reference to check if email input is valid or not
+        #Reference for checking if email input is valid or not
         regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
-        # checks for valid MAIL FROM command 
+        #Checks for valid "MAIL FROM" command 
         valid= re.match(regex, MailFrom[13:])
         if _check1:
             print("503 Bad sequence of commands")  
@@ -116,15 +116,15 @@ while Boolean:
         rcpt_list = []
 
         while boolean:
-            #recieve RCPT TO command
+            #Function to receive "RCPT TO" command
             RCPTTo = client_socket.recv(1024).decode("utf-8")
             print("'RCPT TO command' has been recieved from the client")
-            # check if command input is out of order
+            #To check if the command input is out of order
             check = re.match(r'DATA', RCPTTo)
-            # if check:
-            # _bool=False   
+            #If check function:
+            # _bool = False   
             check2 = re.match(r'MAIL(\s+|$)FROM:' , RCPTTo)            
-            # checks for valid RECEIPT TO command 
+            #Checks for valid "RECEIPT TO" command 
             rcpt = re.match(regex, RCPTTo[11:])
             if RCPTTo[:7] == 'Subject':
                 RCPTTo = 'DATA'
@@ -143,7 +143,7 @@ while Boolean:
                 continue
             else:
                 _bool = False
-                # make save names from recipients
+                #Function to make save names from recipients
                 name_of_file = RCPTTo.replace("RCPT TO: ", "")
                 name_of_file = name_of_file.strip('>')
                 name_of_file = name_of_file.split('@', 1)[-1]
@@ -158,7 +158,7 @@ while Boolean:
                 client_socket.send('250 OK'.encode())
                 print("250 (OK) command has been sent to the client.")
                 
-            # write From and To in files
+            #Function to write From and To in files
             '''for files in to_list:
                 file1 = files
                 size = len(rcpt_list)
@@ -172,10 +172,10 @@ while Boolean:
                         file1.write(rcpt + ", ")'''
             while boolean:
                 if not check:
-                    # receive DATA command
+                    #Function to receive "DATA" command
                     DATACommand = client_socket.recv(1024).decode("utf-8")
                     print("DATA command recieved from the client")
-                    # check if command input is out of order
+                    #Checks if command input is out of order
                     check = re.match(r'DATA', DATACommand)
                 if not check:
                     print("500 Syntax error: command is unrecognized")
@@ -185,10 +185,10 @@ while Boolean:
                     print("'354 - Start mail input command' has been sent to the client")
                     client_socket.send('354 Start mail input; end with <CRLF>.<CRLF>'.encode())
                 while boolean:
-                    # receive mail transactions until QUIT      
+                    #For receiving mail transactions until "QUIT"      
                     Data = client_socket.recv(1024).decode("utf-8")
                     print("Mail transactions recieved from client")
-                    # to stop mail transactions after "."
+                    #To stop mail transactions after "." (Termination portion)
                     if Data == '.':
                         client_socket.send('250 OK'.encode())
                         print("250 (OK) command has been sent to the client")
